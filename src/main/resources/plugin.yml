@@ -1,0 +1,7 @@
+name: Albatross
+version: '${version}'
+main: com.sidpatchy.albatross.Albatross
+api-version: 1.18
+author: Sidpatchy
+description: The lord and master of the skies.
+website: https://www.sidpatchy.com/

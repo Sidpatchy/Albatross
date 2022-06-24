@@ -26,6 +26,11 @@ public class AlbatrossFileManager {
         this.plugin = plugin;
         this.resourceName = fileName;
         this.fileName = fileName;
+        if (fileName.startsWith("/")) {
+            file = new File(plugin.getDataFolder() + fileName.replace("/", File.separator));
+        } else {
+            file = new File(plugin.getDataFolder() + File.separator + fileName.replace("/", File.separator));
+        }
     }
 
     /**
@@ -39,6 +44,11 @@ public class AlbatrossFileManager {
         this.plugin = plugin;
         this.fileName = fileName;
         this.resourceName = resourceName;
+        if (fileName.startsWith("/")) {
+            file = new File(plugin.getDataFolder() + fileName.replace("/", File.separator));
+        } else {
+            file = new File(plugin.getDataFolder() + File.separator + fileName.replace("/", File.separator));
+        }
     }
 
     /**

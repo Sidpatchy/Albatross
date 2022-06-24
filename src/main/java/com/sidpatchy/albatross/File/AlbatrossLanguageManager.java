@@ -1,9 +1,11 @@
 package com.sidpatchy.albatross.File;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class AlbatrossLanguageManager {
@@ -37,10 +39,39 @@ public class AlbatrossLanguageManager {
     }
 
 
-    public String getLocalizedString(String key, Player player) {
+    public String getLocalizedString(String key, Player player) throws IOException, InvalidConfigurationException {
         String locale = player.getLocale();
         AlbatrossConfiguration languageFile = getLangFileByLocale(getTwoLetterLanguageCodeFromMinecraftLocaleString(locale));
-        return languageFile.getString(key);
+        languageFile.loadConfiguration();
+
+        String localizedString;
+        try {
+            localizedString = languageFile.getString(key);
+        }
+        /*
+            This shouldn't ever happen. It means that the yaml file doesn't have a parameter matching the key provided.
+
+            This could be caused by any of the following issues:
+            1) The plugin is searching for a key that isn't intended to exist.
+            2) The language files are outdated and lack updated keys.
+            3) The localization was performed incorrectly and for some reason resulted in the deletion of all
+               untranslated keys from the yaml file. It is best practice to leave untranslated strings in the language
+               file rather than delete them.
+         */
+        catch (Exception ignored) {
+            languageFile = new AlbatrossConfiguration("lang-" + fallbackLocaleString + ".yml", plugin);
+            try {
+                localizedString = languageFile.getString(key);
+            }
+            /*
+                If this happens #1 and/or #2 are likely to be the case.
+             */
+            catch (Exception e){
+                plugin.getLogger().severe("Unable to locate key \"" + key + "\" in fallback or localized language file.");
+                localizedString = "There was an unrecoverable error while reading from the language file";
+            }
+        }
+        return localizedString;
     }
 
     /**

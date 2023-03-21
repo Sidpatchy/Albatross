@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.sidpatchy'
-version = '1.0-SNAPSHOT'
+version = '1.1.0'
 
 repositories {
     mavenCentral()
@@ -16,6 +16,7 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 configurations {
@@ -24,7 +25,7 @@ configurations {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
     shadow 'org.bstats:bstats-bukkit:3.0.0'
 }
 

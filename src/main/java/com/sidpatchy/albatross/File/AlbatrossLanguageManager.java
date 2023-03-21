@@ -41,7 +41,7 @@ public class AlbatrossLanguageManager {
 
     public String getLocalizedString(String key, Player player) throws IOException, InvalidConfigurationException {
         String locale = player.getLocale();
-        AlbatrossConfiguration languageFile = getLangFileByLocale(getTwoLetterLanguageCodeFromMinecraftLocaleString(locale));
+        AlbatrossConfiguration languageFile = getLangFileByLocale(getThreeLetterLanguageCodeFromMinecraftLocaleString(locale));
         languageFile.loadConfiguration();
 
         String localizedString;
@@ -74,6 +74,11 @@ public class AlbatrossLanguageManager {
         return localizedString;
     }
 
+    public String getFallbackLocaleString(String key) {
+        AlbatrossConfiguration languageFile = getLangFileByLocale(getThreeLetterLanguageCodeFromMinecraftLocaleString(fallbackLocaleString));
+        return languageFile.getString(key);
+    }
+
     /**
      * Returns a file based off the language string specified.
      * Returns the fallback file if a suitable translation isn't found.
@@ -94,27 +99,27 @@ public class AlbatrossLanguageManager {
 
     /**
      * Converts Minecraft's locale string to an ISO 639-3 language code.
-     *
+     * <p>
      * This took a long time, regardless, there are probably a considerable number of errors. If you find that I have
      * made one, please create an issue or open a pull request.
-     *
+     * <p>
      * Includes languages found in Minecraft 1.19 and onward. If you desire a language that was removed before Minecraft
      * 1.19, please open an issue or pull request.
-     *
+     * <p>
      * Andalusian and valencian intentionally select the Spanish translation as they do not have an ISO 639-3 code.
      * If at some point in time this changes, please create an issue or open a pull request.
-     *
+     * <p>
      * "Joke" languages select the language they are based off. For example, LOLCAT selects English.
-     *
+     * <p>
      * Anglish selects english as it doesn't have an ISO 639-3 code. If this changes, open an issue or pull request.
-     *
+     * <p>
      * Interslavic selects Church Slavic ("chu") as according to 2 seconds on Wikipedia they're pretty similar. If this
      * assumption is wrong, open an issue or pull request.
      *
      * @param minecraftLocaleString the locale string reported by Minecraft.
      * @return Returns an ISO 639-3 language code.
      */
-    private String getTwoLetterLanguageCodeFromMinecraftLocaleString(String minecraftLocaleString) {
+    private String getThreeLetterLanguageCodeFromMinecraftLocaleString(String minecraftLocaleString) {
         HashMap<String, String> localeList = new HashMap<>() {{
             put("af_za", "afr");
             put("ar_sa", "ara");

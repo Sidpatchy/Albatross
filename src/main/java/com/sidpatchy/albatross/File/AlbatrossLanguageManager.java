@@ -74,8 +74,9 @@ public class AlbatrossLanguageManager {
         return localizedString;
     }
 
-    public String getFallbackLocaleString(String key) {
-        AlbatrossConfiguration languageFile = getLangFileByLocale(getThreeLetterLanguageCodeFromMinecraftLocaleString(fallbackLocaleString));
+    public String getFallbackLocaleString(String key) throws IOException, InvalidConfigurationException {
+        AlbatrossConfiguration languageFile = getLangFileByLocale(fallbackLocaleString);
+        languageFile.loadConfiguration();
         return languageFile.getString(key);
     }
 
@@ -88,7 +89,6 @@ public class AlbatrossLanguageManager {
      */
     private AlbatrossConfiguration getLangFileByLocale(String localeString) {
         File file = new File(plugin.getDataFolder(), "lang-" + localeString + ".yml");
-
         if (file.exists()) {
             return new AlbatrossConfiguration("lang-" + localeString + ".yml", plugin);
         }

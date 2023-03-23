@@ -19,4 +19,8 @@ public final class Albatross extends JavaPlugin {
     public void onDisable() {
         this.getServer().getLogger().info("Albatross disabled.");
     }
+
+    public String getVersion() {
+        return "v1.1.1";
+    }
 }
